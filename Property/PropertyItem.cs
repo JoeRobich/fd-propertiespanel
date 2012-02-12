@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using PropertiesPanel.Manager;
 
 namespace PropertiesPanel.Property
 {
-    public class PropertyItemBase : IPropertyItem, ICustomTypeDescriptor
+    public class PropertyItem : ICustomTypeDescriptor
     {
-        protected Dictionary<PropertyTab, List<IProperty>> _tabPropertyMap = new Dictionary<PropertyTab, List<IProperty>>(); 
-        protected List<IProperty> _properties = new List<IProperty>();
+        protected Dictionary<PropertyTab, List<Property>> _tabPropertyMap = new Dictionary<PropertyTab, List<Property>>();
+        protected List<Property> _properties = new List<Property>();
         protected string _name = string.Empty;
         protected string _typeName = string.Empty;
 
-        protected void OnPropertyChanged(IProperty property)
+        protected void OnPropertyChanged(Property property)
         {
             if (PropertyChanged != null)
                 PropertyChanged(property);
         }
 
-        #region IPropertyItem Members
+        #region PropertyItem Members
 
         public event ValueChangedHandler PropertyChanged;
 
@@ -33,12 +34,12 @@ namespace PropertiesPanel.Property
             get { return _typeName; }
         }
 
-        public IEnumerable<IProperty> Properties
+        public IEnumerable<Property> Properties
         {
             get { return _properties; }
         }
 
-        public IEnumerable<IProperty> GetTabProperties(PropertyTab tab)
+        public IEnumerable<Property> GetTabProperties(PropertyTab tab)
         {
             return _tabPropertyMap[tab];
         }
@@ -93,6 +94,7 @@ namespace PropertiesPanel.Property
         }
 
         private PropertyDescriptorCollection _propertyCache;
+        private Dictionary<PropertyTab, PropertyDescriptorCollection> _tabPropertyCache = new Dictionary<PropertyTab, PropertyDescriptorCollection>();
 
         PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties(Attribute[] attributes)
         {
@@ -101,17 +103,35 @@ namespace PropertiesPanel.Property
 
         PropertyDescriptorCollection ICustomTypeDescriptor.GetProperties()
         {
-            if (_propertyCache != null)
-                return _propertyCache;
+            PropertyTab selectedTab = PropertiesManager.ActiveProvider.SelectedTab;
 
-            List<PropertyPropertyDescriptor> properties = new List<PropertyPropertyDescriptor>();
-            foreach (var property in this.Properties)
+            if (selectedTab == null)
             {
-                properties.Add(new PropertyPropertyDescriptor(property));
+                if (_propertyCache == null)
+                {
+                    List<PropertyPropertyDescriptor> properties = new List<PropertyPropertyDescriptor>();
+                    foreach (var property in this.Properties)
+                    {
+                        properties.Add(new PropertyPropertyDescriptor(property));
+                    }
+                    _propertyCache = new PropertyDescriptorCollection(properties.ToArray());
+                }
+                return _propertyCache;
             }
-            _propertyCache = new PropertyDescriptorCollection(properties.ToArray());
+            else
+            {
+                if (!_tabPropertyCache.ContainsKey(selectedTab))
+                {
+                    List<PropertyPropertyDescriptor> properties = new List<PropertyPropertyDescriptor>();
+                    foreach (var property in this.GetTabProperties(selectedTab))
+                    {
+                        properties.Add(new PropertyPropertyDescriptor(property));
+                    }
+                    _tabPropertyCache[selectedTab] = new PropertyDescriptorCollection(properties.ToArray());
+                }
 
-            return _propertyCache;
+                return _tabPropertyCache[selectedTab];
+            }
         }
 
         object ICustomTypeDescriptor.GetPropertyOwner(PropertyDescriptor pd)
@@ -124,9 +144,9 @@ namespace PropertiesPanel.Property
 
     class PropertyPropertyDescriptor : PropertyDescriptor
     {
-        IProperty _property;
+        Property _property;
 
-        public PropertyPropertyDescriptor(IProperty property)
+        public PropertyPropertyDescriptor(Property property)
             : base(property.DisplayName, null)
         {
             _property = property;
@@ -141,7 +161,7 @@ namespace PropertiesPanel.Property
 
         public override Type ComponentType
         {
-            get { return typeof(PropertyItemBase); }
+            get { return typeof(PropertyItem); }
         }
 
         public override object GetValue(object component)

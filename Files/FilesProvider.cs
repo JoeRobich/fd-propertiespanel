@@ -7,12 +7,12 @@ using System.Windows.Forms;
 
 namespace PropertiesPanel.Files
 {
-    public class FilesProvider : PropertyProviderBase
+    public class FilesProvider : PropertyProvider
     {
         private ListView _filesList = null;
 
         public FilesProvider()
-            : base("Files Provider")
+            : base("FilesProvider")
         {
 
         }
@@ -35,17 +35,29 @@ namespace PropertiesPanel.Files
 
         private void HookEvents()
         {
-
+            _filesList.SelectedIndexChanged += new EventHandler(_filesList_SelectedIndexChanged);
         }
 
         private void UnhookEvents()
         {
-
+            _filesList.SelectedIndexChanged -= new EventHandler(_filesList_SelectedIndexChanged);
         }
 
         private void BuildItems()
         {
+            ClearItems();
 
+            if (_filesList.SelectedItems.Count == 0)
+                return;
+
+            FilesItem selectedItem = new FilesItem(_filesList.SelectedItems[0]);
+            AddItem(selectedItem);
+            SelectedItem = selectedItem;
+        }
+
+        void _filesList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            BuildItems();
         }
     }
 }

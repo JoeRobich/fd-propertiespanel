@@ -9,12 +9,12 @@ using PropertiesPanel.Property;
 
 namespace PropertiesPanel.Outline
 {
-    public class OutlineProvider : PropertyProviderBase
+    public class OutlineProvider : PropertyProvider
     {
         private TreeView _outlineTree = null;
 
         public OutlineProvider()
-            : base("Outline Provider")
+            : base("OutlineProvider")
         {
 
         }
@@ -50,31 +50,29 @@ namespace PropertiesPanel.Outline
             ClearItems();
 
             OutlineItem item = AddItems(_outlineTree.Nodes);
-
-            if (SelectedItem == null)
-                SelectedItem = item;
+            SelectedItem = item;
         }
 
         private OutlineItem AddItems(TreeNodeCollection nodes)
         {
-            OutlineItem firstItem = null;
+            OutlineItem selectedItem = null;
 
             foreach (TreeNode node in nodes)
             {
                 OutlineItem item = new OutlineItem(node);
 
-                if (firstItem == null)
-                    firstItem = item;
-
                 AddItem(item);
 
                 if (_outlineTree.SelectedNode == node)
-                    SelectedItem = item;
+                    selectedItem = item;
 
-                AddItems(node.Nodes);
+                item = AddItems(node.Nodes);
+
+                if (item != null)
+                    selectedItem = item;
             }
 
-            return firstItem;
+            return selectedItem;
         }
 
         void _outlineTree_AfterSelect(object sender, TreeViewEventArgs e)

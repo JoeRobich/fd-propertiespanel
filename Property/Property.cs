@@ -6,7 +6,9 @@ using System.ComponentModel;
 
 namespace PropertiesPanel.Property
 {
-    public class Property : IProperty
+    public delegate void ValueChangedHandler(Property property);
+
+    public class Property
     {
         protected string _displayName = string.Empty;
         protected string _description = string.Empty;
@@ -18,6 +20,8 @@ namespace PropertiesPanel.Property
         protected object[] _listValues = null;
         protected object _value = null;
         protected Type _valueType = null;
+
+        #region Constructors
 
         public Property()
         {
@@ -55,13 +59,15 @@ namespace PropertiesPanel.Property
                 _defaultValue = _value;
         }
 
+        #endregion
+
         protected void OnValueChanged()
         {
             if (ValueChanged != null)
                 ValueChanged(this);
         }
 
-        #region IProperty Members
+        #region Property Members
 
         public event ValueChangedHandler ValueChanged;
 

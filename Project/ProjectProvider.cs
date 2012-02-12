@@ -10,12 +10,12 @@ using PropertiesPanel.Property;
 
 namespace PropertiesPanel.Project
 {
-    class ProjectProvider : PropertyProviderBase
+    class ProjectProvider : PropertyProvider
     {
         private ProjectTreeView _projectTree = null;
 
         public ProjectProvider()
-            : base("Project Provider")
+            : base("ProjectProvider")
         {
 
         }

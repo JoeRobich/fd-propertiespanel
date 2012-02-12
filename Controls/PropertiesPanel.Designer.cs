@@ -35,8 +35,6 @@
             this.toolStrip = new System.Windows.Forms.ToolStrip();
             this.categorizeButton = new System.Windows.Forms.ToolStripButton();
             this.alphabetizeButton = new System.Windows.Forms.ToolStripButton();
-            this.sortSeparator = new System.Windows.Forms.ToolStripSeparator();
-            this.propertiesButton = new System.Windows.Forms.ToolStripButton();
             this.stripContainer = new System.Windows.Forms.ToolStripContainer();
             this.itemsStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -83,11 +81,10 @@
             this.toolStrip.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.categorizeButton,
-            this.alphabetizeButton,
-            this.sortSeparator,
-            this.propertiesButton});
+            this.alphabetizeButton});
             this.toolStrip.Location = new System.Drawing.Point(0, 27);
             this.toolStrip.Name = "toolStrip";
+            this.toolStrip.Padding = new System.Windows.Forms.Padding(1);
             this.toolStrip.Size = new System.Drawing.Size(222, 25);
             this.toolStrip.Stretch = true;
             this.toolStrip.TabIndex = 2;
@@ -98,7 +95,7 @@
             this.categorizeButton.Image = ((System.Drawing.Image)(resources.GetObject("categorizeButton.Image")));
             this.categorizeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.categorizeButton.Name = "categorizeButton";
-            this.categorizeButton.Size = new System.Drawing.Size(23, 22);
+            this.categorizeButton.Size = new System.Drawing.Size(23, 20);
             this.categorizeButton.Text = "Categorize";
             // 
             // alphabetizeButton
@@ -107,22 +104,8 @@
             this.alphabetizeButton.Image = ((System.Drawing.Image)(resources.GetObject("alphabetizeButton.Image")));
             this.alphabetizeButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.alphabetizeButton.Name = "alphabetizeButton";
-            this.alphabetizeButton.Size = new System.Drawing.Size(23, 22);
+            this.alphabetizeButton.Size = new System.Drawing.Size(23, 20);
             this.alphabetizeButton.Text = "Alphabetize";
-            // 
-            // sortSeparator
-            // 
-            this.sortSeparator.Name = "sortSeparator";
-            this.sortSeparator.Size = new System.Drawing.Size(6, 25);
-            // 
-            // propertiesButton
-            // 
-            this.propertiesButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.propertiesButton.Image = ((System.Drawing.Image)(resources.GetObject("propertiesButton.Image")));
-            this.propertiesButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.propertiesButton.Name = "propertiesButton";
-            this.propertiesButton.Size = new System.Drawing.Size(23, 22);
-            this.propertiesButton.Text = "Properties";
             // 
             // stripContainer
             // 
@@ -176,7 +159,5 @@
         private System.Windows.Forms.ToolStripSpringComboBox itemsComboBox;
         private System.Windows.Forms.ToolStripButton categorizeButton;
         private System.Windows.Forms.ToolStripButton alphabetizeButton;
-        private System.Windows.Forms.ToolStripSeparator sortSeparator;
-        private System.Windows.Forms.ToolStripButton propertiesButton;
     }
 }

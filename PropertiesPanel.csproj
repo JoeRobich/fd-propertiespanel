@@ -55,10 +55,8 @@
     </Compile>
     <Compile Include="Files\FilesItem.cs" />
     <Compile Include="Files\FilesProvider.cs" />
-    <Compile Include="Property\IPropertyItem.cs" />
-    <Compile Include="Property\IPropertyProvider.cs" />
     <Compile Include="Property\PropertyAction.cs" />
-    <Compile Include="Property\PropertyProviderBase.cs" />
+    <Compile Include="Property\PropertyProvider.cs" />
     <Compile Include="Property\PropertyTab.cs" />
     <Compile Include="Manager\PropertiesManager.cs" />
     <Compile Include="Outline\OutlineItem.cs" />
@@ -69,9 +67,8 @@
     <Compile Include="Project\ProjectItem.cs" />
     <Compile Include="Project\ProjectProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Property\IProperty.cs" />
     <Compile Include="Property\Property.cs" />
-    <Compile Include="Property\PropertyItemBase.cs" />
+    <Compile Include="Property\PropertyItem.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
   <ItemGroup>

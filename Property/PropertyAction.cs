@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace PropertiesPanel.Property
 {
-    public delegate void ActionFiredHandler(IPropertyProvider provider, IPropertyItem item);
+    public delegate void ActionFiredHandler(PropertyProvider provider, PropertyItem item);
 
     public class PropertyAction : PropertyTab
     {
@@ -17,7 +17,7 @@ namespace PropertiesPanel.Property
         {
         }
 
-        internal void OnActionFired(IPropertyProvider provider, IPropertyItem item)
+        internal void OnActionFired(PropertyProvider provider, PropertyItem item)
         {
             if (ActionFired != null)
                 ActionFired(provider, item);

@@ -5,15 +5,21 @@ using System.Text;
 
 namespace PropertiesPanel.Property
 {
-    public abstract class PropertyProviderBase : IPropertyProvider
+    public delegate void SelectionChangedHandler(PropertyProvider provider, PropertyItem selectedItem);
+    public delegate void ItemsChangesHandler(PropertyProvider provider);
+    public delegate void ProviderActivatedHandler(PropertyProvider provider);
+    public delegate void ProviderDeactivatedHandler(PropertyProvider provider);
+
+    public abstract class PropertyProvider 
     {
         private string _name = string.Empty;
-        private IPropertyItem _selectedItem = null;
-        private List<IPropertyItem> _items = new List<IPropertyItem>();
+        private PropertyItem _selectedItem = null;
+        private PropertyTab _selectedTab = null;
+        private List<PropertyItem> _items = new List<PropertyItem>();
         private List<PropertyTab> _tabs = new List<PropertyTab>();
         private List<PropertyAction> _actions = new List<PropertyAction>();
 
-        public PropertyProviderBase(string name)
+        public PropertyProvider(string name)
         {
             _name = name;
         }
@@ -21,8 +27,7 @@ namespace PropertiesPanel.Property
         protected abstract void OnActivating(System.Windows.Forms.DockPanelControl panel);
         protected abstract void OnDeactivating();
 
-
-        protected void AddItem(IPropertyItem item)
+        protected void AddItem(PropertyItem item)
         {
             _items.Add(item);
             OnItemsChanged();
@@ -79,14 +84,11 @@ namespace PropertiesPanel.Property
                 SelectionChanged(this, SelectedItem);
         }
 
-        #region IPropertyProvider Members
+        #region PropertyProvider Members
 
         public event ProviderActivatedHandler Activated;
-
         public event ProviderDeactivatedHandler Deactivated;
-
         public event ItemsChangesHandler ItemsChanged;
-
         public event SelectionChangedHandler SelectionChanged;
 
         public string Name
@@ -94,7 +96,7 @@ namespace PropertiesPanel.Property
             get { return _name; }
         }
 
-        public IPropertyItem SelectedItem
+        public PropertyItem SelectedItem
         {
             get { return _selectedItem; }
             protected set
@@ -107,7 +109,20 @@ namespace PropertiesPanel.Property
             }
         }
 
-        public IEnumerable<IPropertyItem> Items
+        public PropertyTab SelectedTab
+        {
+            get { return _selectedTab; }
+            internal set
+            {
+                if (_selectedTab != value && _tabs.Count > 0)
+                {
+                    _selectedTab = value;
+                    OnSelectedChanged();
+                }
+            }
+        }
+
+        public IEnumerable<PropertyItem> Items
         {
             get { return _items; }
         }

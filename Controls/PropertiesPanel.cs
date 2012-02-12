@@ -15,8 +15,10 @@ namespace PropertiesPanel.Controls
 {
     public partial class PropertiesPanel : DockPanelControl
     {
-        private IPropertyProvider _provider = null;
+        private PropertyProvider _provider = null;
         private Font _boldFont = null;
+        private ToolStripButton _selectedTabButton = null;
+        private List<ToolStripButton> _actionButtons = new List<ToolStripButton>();
 
         public PropertiesPanel()
         {
@@ -36,19 +38,6 @@ namespace PropertiesPanel.Controls
             alphabetizeButton.Text = ResourceHelper.GetString("PropertiesPanel.Label.Alphabetical");
             alphabetizeButton.Image = ResourceHelper.GetImage("SortAlphabetical");
             alphabetizeButton.Click += new EventHandler(alphabetizeButton_Click);
-
-            propertiesButton.Text = ResourceHelper.GetString("PropertiesPanel.Label.Properties");
-            propertiesButton.Image = ResourceHelper.GetImage("Properties");
-            propertiesButton.Click += new EventHandler(propertiesButton_Click);
-            propertiesButton.Checked = true;
-        }
-
-        void propertiesButton_Click(object sender, EventArgs e)
-        {
-            if (!propertiesButton.Checked)
-            {
-
-            }
         }
 
         void alphabetizeButton_Click(object sender, EventArgs e)
@@ -76,8 +65,8 @@ namespace PropertiesPanel.Controls
         /// </summary>
         private void InitializeLayout()
         {
-            this.toolStrip.Renderer = new DockPanelStripRenderer();
-            this.itemsStrip.Renderer = new DockPanelStripRenderer();
+            this.toolStrip.Renderer = new DockPanelStripRenderer(false);
+            this.itemsStrip.Renderer = new DockPanelStripRenderer(false);
             this.itemsComboBox.FlatStyle = PluginBase.Settings.ComboBoxFlatStyle;
         }
 
@@ -96,7 +85,7 @@ namespace PropertiesPanel.Controls
             if (e.Index == -1)
                 return;
 
-            IPropertyItem item = (IPropertyItem)itemsComboBox.Items[e.Index];
+            PropertyItem item = (PropertyItem)itemsComboBox.Items[e.Index];
             float nameLength = e.Graphics.MeasureString(item.Name, _boldFont).Width;
 
             e.DrawBackground();
@@ -142,20 +131,130 @@ namespace PropertiesPanel.Controls
             propertyGrid.SelectedObject = itemsComboBox.SelectedItem;
         }
 
-        void PropertiesManager_ActiveProviderChanged(IPropertyProvider provider)
+        void PropertiesManager_ActiveProviderChanged(PropertyProvider provider)
         {
             UnhookProvider();
             _provider = provider;
             HookProvider();
+            BuildToolbar();
             RefreshItems();
         }
 
-        void _provider_SelectionChanged(IPropertyProvider provider, IPropertyItem selectedItem)
+        private void BuildToolbar()
+        {
+            ClearToolbar();
+            AddPropertyTabs();
+            AddPropertyActions();
+        }
+
+        private void ClearToolbar()
+        {
+            while (toolStrip.Items.Count > 2)
+            {
+                ToolStripItem item = toolStrip.Items[2];
+                if (item.Tag is PropertyTab)
+                    UnhookTabEvents(item);
+                else if (item.Tag is PropertyAction)
+                    UnhookActionEvents(item);
+            }
+
+            SelectTab(null);
+            _actionButtons.Clear();
+        }
+
+        private void AddPropertyTabs()
+        {
+            PropertyTab[] tabs = _provider.Tabs.ToArray();
+            if (tabs.Length == 0)
+                return;
+
+            toolStrip.Items.Add(new ToolStripSeparator());
+
+            foreach (PropertyTab tab in tabs)
+            {
+                ToolStripButton tabButton = new ToolStripButton(tab.Name, tab.Icon);
+                
+                if (_selectedTabButton == null)
+                    SelectTab(tabButton);
+
+                HookTabEvents(tabButton);
+                toolStrip.Items.Add(tabButton);
+            }
+        }
+
+        private void AddPropertyActions()
+        {
+            PropertyAction[] actions = _provider.Actions.ToArray();
+            if (actions.Length == 0)
+                return;
+
+            toolStrip.Items.Add(new ToolStripSeparator());
+
+            foreach (PropertyAction action in actions)
+            {
+                ToolStripButton actionButton = new ToolStripButton(action.Name, action.Icon);
+                HookTabEvents(actionButton);
+                toolStrip.Items.Add(actionButton);
+                _actionButtons.Add(actionButton);
+            }
+        }
+
+        private void SelectTab(ToolStripButton tabButton)
+        {
+            if (_selectedTabButton != null)
+                _selectedTabButton.Checked = false;
+
+            _selectedTabButton = tabButton;
+
+            PropertyTab selectedTab = null;
+            if (_selectedTabButton != null)
+            {
+                _selectedTabButton.Checked = true;
+                selectedTab = (PropertyTab)_selectedTabButton.Tag;
+            }
+
+            _provider.SelectedTab = selectedTab;
+        }
+
+        private void HookTabEvents(ToolStripItem tabItem)
+        {
+            tabItem.Click += new EventHandler(tabItem_Click);
+        }
+
+        private void UnhookTabEvents(ToolStripItem tabItem)
+        {
+            tabItem.Click -= new EventHandler(tabItem_Click);
+        }
+
+        private void HookActionEvents(ToolStripItem actionItem)
+        {
+            actionItem.Click += new EventHandler(actionItem_Click);
+        }
+
+        private void UnhookActionEvents(ToolStripItem actionItem)
+        {
+            actionItem.Click -= new EventHandler(actionItem_Click);
+        }
+
+        void actionItem_Click(object sender, EventArgs e)
+        {
+            ToolStripButton actionButton = (ToolStripButton)sender;
+            PropertyAction action = (PropertyAction)actionButton.Tag;
+            action.OnActionFired(_provider, _provider.SelectedItem);
+        }
+
+        void tabItem_Click(object sender, EventArgs e)
+        {
+            ToolStripButton tabButton = (ToolStripButton)sender;
+            SelectTab(tabButton);
+        }
+
+        void _provider_SelectionChanged(PropertyProvider provider, PropertyItem selectedItem)
         {
             UpdateSelectedItem();
         }
 
-        void _provider_ItemsChanged(IPropertyProvider provider)
+        void _provider_ItemsChanged(PropertyProvider provider)
         {
             UpdateItems();
         }

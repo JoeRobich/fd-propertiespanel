@@ -6,10 +6,11 @@ using System.Windows.Forms;
 using ASCompletion.Model;
 using ASCompletion.Context;
 using PropertiesPanel.Property;
+using PropertiesPanel.Helpers;
 
 namespace PropertiesPanel.Outline
 {
-    public class OutlineItem: PropertyItemBase
+    public class OutlineItem: PropertyItem
     {
         private TreeNode _node = null;
 
@@ -125,9 +126,9 @@ namespace PropertiesPanel.Outline
             _typeName = "Member Properties";
 
             Property.Property property;
-            property = new Property.Property("Member Name", Name, typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), Name, typeof(string), true);
             _properties.Add(property);
-            property = new Property.Property("Member Type", model.Type, typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Type"), model.Type, typeof(string), true);
             _properties.Add(property);
         }
 
@@ -137,12 +138,12 @@ namespace PropertiesPanel.Outline
                 return;
 
             _name = model.Name;
-            _typeName = "Class Properties";
+            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.ClassProperties");
 
             Property.Property property;
-            property = new Property.Property("Class Name", Name, typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), Name, typeof(string), true);
             _properties.Add(property);
-            property = new Property.Property("Class Namespace", model.Type.Substring(0, model.Type.Length - model.Name.Length - 1), typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Namespace"), model.Type.Substring(0, model.Type.Length - model.Name.Length - 1), typeof(string), true);
             _properties.Add(property);
         }
 
@@ -152,30 +153,30 @@ namespace PropertiesPanel.Outline
                 return;
 
             _name = model.Name;
-            _typeName = "Class Properties";
+            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.ClassProperties");
 
             Property.Property property;
-            property = new Property.Property("Class Name", Name, typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), Name, typeof(string), true);
             _properties.Add(property);
-            property = new Property.Property("Class Namespace", model.QualifiedName.Substring(0, model.QualifiedName.Length - model.Name.Length - 1), typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Namespace"), model.QualifiedName.Substring(0, model.QualifiedName.Length - model.Name.Length - 1), typeof(string), true);
             _properties.Add(property);
         }
 
         private void BuildFileProperties()
         {
-            _typeName = "File Properties";
+            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.FileProperties");
 
             Property.Property property;
-            property = new Property.Property("File Name", Name, typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), Name, typeof(string), true);
             _properties.Add(property);
         }
 
         private void BuildFolderProperties()
         {
-            _typeName = "Folder Properties";
+            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.FolderProperties");
 
             Property.Property property;
-            property = new Property.Property("Folder Name", Name, typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), Name, typeof(string), true);
             _properties.Add(property);
         }
     }

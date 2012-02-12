@@ -123,14 +123,47 @@
   <data name="PropertiesPanel.Label.Categorized" xml:space="preserve">
     <value>Categorized</value>
   </data>
+  <data name="PropertiesPanel.Label.ClassProperties" xml:space="preserve">
+    <value>Class Properties</value>
+  </data>
   <data name="PropertiesPanel.Label.Events" xml:space="preserve">
     <value>Events</value>
+  </data>
+  <data name="PropertiesPanel.Label.FileProperties" xml:space="preserve">
+    <value>File Properties</value>
+  </data>
+  <data name="PropertiesPanel.Label.FolderProperties" xml:space="preserve">
+    <value>Folder Properties</value>
+  </data>
+  <data name="PropertiesPanel.Label.Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="PropertiesPanel.Label.LastModifiedOn" xml:space="preserve">
+    <value>LastModifiedOn</value>
+  </data>
+  <data name="PropertiesPanel.Label.Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="PropertiesPanel.Label.Namespace" xml:space="preserve">
+    <value>Namespace</value>
+  </data>
+  <data name="PropertiesPanel.Label.Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
+  <data name="PropertiesPanel.Label.ProjectProperties" xml:space="preserve">
+    <value>ProjectProperties</value>
   </data>
   <data name="PropertiesPanel.Label.Properties" xml:space="preserve">
     <value>Properties</value>
   </data>
   <data name="PropertiesPanel.Label.ShowProperties" xml:space="preserve">
     <value>Properties Panel</value>
+  </data>
+  <data name="PropertiesPanel.Label.Size" xml:space="preserve">
+    <value>Size</value>
+  </data>
+  <data name="PropertiesPanel.Label.Type" xml:space="preserve">
+    <value>Type</value>
   </data>
   <data name="PropertiesPanel.Title.PropertiesPanel" xml:space="preserve">
     <value>Properties</value>

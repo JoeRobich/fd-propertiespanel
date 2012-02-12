@@ -7,18 +7,18 @@ using PropertiesPanel.Property;
 
 namespace PropertiesPanel.Manager
 {
-    public delegate void ProviderChangedHandler(IPropertyProvider provider);
+    public delegate void ProviderChangedHandler(PropertyProvider provider);
 
     public class PropertiesManager
     {
-        private static Dictionary<Type, IPropertyProvider> _providerMap = new Dictionary<Type, IPropertyProvider>();
-        private static IPropertyProvider _activeProvider = null;
+        private static Dictionary<Type, PropertyProvider> _providerMap = new Dictionary<Type, PropertyProvider>();
+        private static PropertyProvider _activeProvider = null;
 
         #region Public Events and Methods
 
         public static event ProviderChangedHandler ActiveProviderChanged;
 
-        public static IPropertyProvider ActiveProvider
+        public static PropertyProvider ActiveProvider
         {
             get
             {
@@ -26,7 +26,7 @@ namespace PropertiesPanel.Manager
             }
         }
 
-        public static void RegisterProvider(DockPanelControl panel, IPropertyProvider provider)
+        public static void RegisterProvider(DockPanelControl panel, PropertyProvider provider)
         {
             Type panelType = panel.GetType();
             RegisterProviderByType(panelType, provider);
@@ -42,7 +42,7 @@ namespace PropertiesPanel.Manager
 
         #region Internal Methods
 
-        internal static void RegisterProviderByType(Type panelType, IPropertyProvider provider)
+        internal static void RegisterProviderByType(Type panelType, PropertyProvider provider)
         {
             _providerMap[panelType] = provider;
         }
@@ -58,7 +58,7 @@ namespace PropertiesPanel.Manager
         internal static void ActivateProvider(DockPanelControl panel)
         {
             Type panelType = panel.GetType();
-            IPropertyProvider provider = GetProvider(panelType);
+            PropertyProvider provider = GetProvider(panelType);
 
             if (_activeProvider == provider || provider == null)
                 return;
@@ -74,7 +74,7 @@ namespace PropertiesPanel.Manager
             OnActiveProviderChanged(_activeProvider);
         }
 
-        internal static IPropertyProvider GetProvider(Type panelType)
+        internal static PropertyProvider GetProvider(Type panelType)
         {
             if (!_providerMap.ContainsKey(panelType))
                 return null;
@@ -82,7 +82,7 @@ namespace PropertiesPanel.Manager
             return _providerMap[panelType];
         }
 
-        internal static void OnActiveProviderChanged(IPropertyProvider provider)
+        internal static void OnActiveProviderChanged(PropertyProvider provider)
         {
             if (ActiveProviderChanged != null)
                 ActiveProviderChanged(provider);

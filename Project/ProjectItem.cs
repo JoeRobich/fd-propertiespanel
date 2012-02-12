@@ -5,10 +5,11 @@ using System.Text;
 using System.Windows.Forms;
 using ProjectManager.Controls.TreeView;
 using PropertiesPanel.Property;
+using PropertiesPanel.Helpers;
 
 namespace PropertiesPanel.Project
 {
-    class ProjectItem : PropertyItemBase
+    class ProjectItem : PropertyItem
     {
         private ProjectManager.Projects.Project _project;
         private TreeNode _node = null;
@@ -36,34 +37,34 @@ namespace PropertiesPanel.Project
 
         private void BuildFileProperties(FileNode node)
         {
-            _typeName = "File Properties";
+            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.FileProperties");
 
             Property.Property property;
-            property = new Property.Property("File Name", Name, typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), Name, typeof(string), true);
             _properties.Add(property);
-            property = new Property.Property("Full Path", node.BackingPath, typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Path"), node.BackingPath, typeof(string), true);
             _properties.Add(property);
         }
 
         private void BuildFolderProperties(DirectoryNode node)
         {
-            _typeName = "Folder Properties";
+            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.FolderProperties");
 
             Property.Property property;
-            property = new Property.Property("Folder Name", Name, typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), Name, typeof(string), true);
             _properties.Add(property);
         }
 
         private void BuildProjectProperties(ProjectNode node)
         {
-            _typeName = "Project Properties";
+            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.ProjectProperties");
 
             Property.Property property;
-            property = new Property.Property("Project Name", _project.Name, typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), _project.Name, typeof(string), true);
             _properties.Add(property);
-            property = new Property.Property("Project Path", _project.ProjectPath, typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Path"), _project.ProjectPath, typeof(string), true);
             _properties.Add(property);
-            property = new Property.Property("Project Language", _project.Language, typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Language"), _project.Language, typeof(string), true);
             _properties.Add(property);
         }
 
