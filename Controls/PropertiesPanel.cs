@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using PluginCore;
 using PropertiesPanel.Helpers;
 using PropertiesPanel.Manager;
+using PropertiesPanel.Property;
 
 namespace PropertiesPanel.Controls
 {
@@ -29,12 +30,45 @@ namespace PropertiesPanel.Controls
         {
             categorizeButton.Text = ResourceHelper.GetString("PropertiesPanel.Label.Categorized");
             categorizeButton.Image = ResourceHelper.GetImage("SortCategorized");
+            categorizeButton.Checked = true;
+            categorizeButton.Click += new EventHandler(categorizeButton_Click);
+
             alphabetizeButton.Text = ResourceHelper.GetString("PropertiesPanel.Label.Alphabetical");
             alphabetizeButton.Image = ResourceHelper.GetImage("SortAlphabetical");
+            alphabetizeButton.Click += new EventHandler(alphabetizeButton_Click);
+
             propertiesButton.Text = ResourceHelper.GetString("PropertiesPanel.Label.Properties");
             propertiesButton.Image = ResourceHelper.GetImage("Properties");
-            eventsButton.Text = ResourceHelper.GetString("PropertiesPanel.Label.Events");
-            eventsButton.Image = ResourceHelper.GetImage("Event");
+            propertiesButton.Click += new EventHandler(propertiesButton_Click);
+            propertiesButton.Checked = true;
+        }
+
+        void propertiesButton_Click(object sender, EventArgs e)
+        {
+            if (!propertiesButton.Checked)
+            {
+
+            }
+        }
+
+        void alphabetizeButton_Click(object sender, EventArgs e)
+        {
+            if (!alphabetizeButton.Checked)
+            {
+                alphabetizeButton.Checked = true;
+                categorizeButton.Checked = false;
+                propertyGrid.PropertySort = PropertySort.Alphabetical;
+            }
+        }
+
+        void categorizeButton_Click(object sender, EventArgs e)
+        {
+            if (!categorizeButton.Checked)
+            {
+                alphabetizeButton.Checked = false;
+                categorizeButton.Checked = true;
+                propertyGrid.PropertySort = PropertySort.CategorizedAlphabetical;
+            }
         }
 
         /// <summary>

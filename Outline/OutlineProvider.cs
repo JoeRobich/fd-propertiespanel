@@ -5,14 +5,35 @@ using System.Text;
 using PluginCore.Managers;
 using PluginCore;
 using System.Windows.Forms;
+using PropertiesPanel.Property;
 
 namespace PropertiesPanel.Outline
 {
-    public class OutlineProvider : IPropertyProvider
+    public class OutlineProvider : PropertyProviderBase
     {
         private TreeView _outlineTree = null;
-        private List<IPropertyItem> _items = new List<IPropertyItem>();
-        private IPropertyItem _selectedItem = null;
+
+        public OutlineProvider()
+            : base("Outline Provider")
+        {
+
+        }
+
+        protected override void OnActivating(DockPanelControl panel)
+        {
+            ASCompletion.PluginUI outlinePanel = panel as ASCompletion.PluginUI;
+            _outlineTree = outlinePanel.OutlineTree;
+
+            BuildItems();
+            HookEvents();
+        }
+
+        protected override void OnDeactivating()
+        {
+            UnhookEvents();
+            ClearItems();
+            _outlineTree = null;
+        }
 
         private void HookEvents()
         {
@@ -28,95 +49,37 @@ namespace PropertiesPanel.Outline
         {
             ClearItems();
 
-            AddItems(_outlineTree.Nodes);
+            OutlineItem item = AddItems(_outlineTree.Nodes);
 
-            if (_selectedItem == null && _items.Count > 0)
-                _selectedItem = _items[0];
-
-            OnItemsChanged(this);
-            OnSelectionChanged(this, _selectedItem);
+            if (SelectedItem == null)
+                SelectedItem = item;
         }
 
-        private void ClearItems()
+        private OutlineItem AddItems(TreeNodeCollection nodes)
         {
-            _items.Clear();
-            _selectedItem = null;
-        }
+            OutlineItem firstItem = null;
 
-        private void AddItems(TreeNodeCollection nodes)
-        {
             foreach (TreeNode node in nodes)
             {
                 OutlineItem item = new OutlineItem(node);
-                _items.Add(item);
+
+                if (firstItem == null)
+                    firstItem = item;
+
+                AddItem(item);
 
                 if (_outlineTree.SelectedNode == node)
-                    _selectedItem = item;
+                    SelectedItem = item;
 
                 AddItems(node.Nodes);
             }
-        }
 
-        private void OnItemsChanged(IPropertyProvider provider)
-        {
-            if (ItemsChanged != null)
-                ItemsChanged(provider);
-        }
-
-        private void OnSelectionChanged(IPropertyProvider provider, IPropertyItem selectedItem)
-        {
-            if (SelectionChanged != null)
-                SelectionChanged(provider, selectedItem);
+            return firstItem;
         }
 
         void _outlineTree_AfterSelect(object sender, TreeViewEventArgs e)
         {
             BuildItems();
         }
-
-        #region IPropertyProvider Members
-
-        public event ProviderActivatedHandler Activated;
-        public event ProviderDeactivatedHandler Deactivated;
-        public event ItemsChangesHandler ItemsChanged;
-        public event SelectionChangedHandler SelectionChanged;
-
-        public string Name
-        {
-            get { return "Outline Provider"; }
-        }
-
-        public IPropertyItem SelectedItem
-        {
-            get { return _selectedItem; }
-        }
-
-        public IEnumerable<IPropertyItem> Items
-        {
-            get { return _items; }
-        }
-
-        public IEnumerable<IPropertyTab> Tabs
-        {
-            get { return null; }
-        }
-
-        public void Activate(System.Windows.Forms.DockPanelControl panel)
-        {
-            ASCompletion.PluginUI outlinePanel = panel as ASCompletion.PluginUI;
-            _outlineTree = outlinePanel.OutlineTree;
-
-            BuildItems();
-            HookEvents();
-        }
-
-        public void Deactivate()
-        {
-            UnhookEvents();
-            ClearItems();
-            _outlineTree = null;
-        }
-
-        #endregion
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace PropertiesPanel
+namespace PropertiesPanel.Property
 {
     public delegate void SelectionChangedHandler(IPropertyProvider provider, IPropertyItem selectedItem);
     public delegate void ItemsChangesHandler(IPropertyProvider provider);
@@ -21,7 +21,8 @@ namespace PropertiesPanel
         string Name { get; }
         IPropertyItem SelectedItem { get; }
         IEnumerable<IPropertyItem> Items { get; }
-        IEnumerable<IPropertyTab> Tabs { get; }
+        IEnumerable<PropertyTab> Tabs { get; }
+        IEnumerable<PropertyAction> Actions { get; }
 
         void Activate(DockPanelControl panel);
         void Deactivate();

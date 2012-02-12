@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace PropertiesPanel
+namespace PropertiesPanel.Property
 {
     public class PropertyItemBase : IPropertyItem, ICustomTypeDescriptor
     {
-        protected Dictionary<IPropertyTab, List<IProperty>> _tabPropertyMap = new Dictionary<IPropertyTab, List<IProperty>>(); 
+        protected Dictionary<PropertyTab, List<IProperty>> _tabPropertyMap = new Dictionary<PropertyTab, List<IProperty>>(); 
         protected List<IProperty> _properties = new List<IProperty>();
         protected string _name = string.Empty;
         protected string _typeName = string.Empty;
@@ -38,7 +38,7 @@ namespace PropertiesPanel
             get { return _properties; }
         }
 
-        public IEnumerable<IProperty> GetTabProperties(IPropertyTab tab)
+        public IEnumerable<IProperty> GetTabProperties(PropertyTab tab)
         {
             return _tabPropertyMap[tab];
         }

@@ -15,6 +15,8 @@ using PropertiesPanel.Helpers;
 using WeifenLuo.WinFormsUI.Docking;
 using PropertiesPanel.Manager;
 using PropertiesPanel.Outline;
+using PropertiesPanel.Project;
+using PropertiesPanel.Files;
 
 namespace PropertiesPanel
 {
@@ -151,6 +153,8 @@ namespace PropertiesPanel
         void RegisterProviders()
         {
             PropertiesManager.RegisterProviderByType(typeof(ASCompletion.PluginUI), new OutlineProvider());
+            PropertiesManager.RegisterProviderByType(typeof(ProjectManager.PluginUI), new ProjectProvider());
+            PropertiesManager.RegisterProviderByType(typeof(FileExplorer.PluginUI), new FilesProvider());
         }
 
         #region Custom Methods

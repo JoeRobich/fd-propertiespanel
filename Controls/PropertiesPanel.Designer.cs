@@ -37,7 +37,6 @@
             this.alphabetizeButton = new System.Windows.Forms.ToolStripButton();
             this.sortSeparator = new System.Windows.Forms.ToolStripSeparator();
             this.propertiesButton = new System.Windows.Forms.ToolStripButton();
-            this.eventsButton = new System.Windows.Forms.ToolStripButton();
             this.stripContainer = new System.Windows.Forms.ToolStripContainer();
             this.itemsStrip.SuspendLayout();
             this.toolStrip.SuspendLayout();
@@ -86,8 +85,7 @@
             this.categorizeButton,
             this.alphabetizeButton,
             this.sortSeparator,
-            this.propertiesButton,
-            this.eventsButton});
+            this.propertiesButton});
             this.toolStrip.Location = new System.Drawing.Point(0, 27);
             this.toolStrip.Name = "toolStrip";
             this.toolStrip.Size = new System.Drawing.Size(222, 25);
@@ -125,15 +123,6 @@
             this.propertiesButton.Name = "propertiesButton";
             this.propertiesButton.Size = new System.Drawing.Size(23, 22);
             this.propertiesButton.Text = "Properties";
-            // 
-            // eventsButton
-            // 
-            this.eventsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.eventsButton.Image = ((System.Drawing.Image)(resources.GetObject("eventsButton.Image")));
-            this.eventsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.eventsButton.Name = "eventsButton";
-            this.eventsButton.Size = new System.Drawing.Size(23, 22);
-            this.eventsButton.Text = "Events";
             // 
             // stripContainer
             // 
@@ -189,6 +178,5 @@
         private System.Windows.Forms.ToolStripButton alphabetizeButton;
         private System.Windows.Forms.ToolStripSeparator sortSeparator;
         private System.Windows.Forms.ToolStripButton propertiesButton;
-        private System.Windows.Forms.ToolStripButton eventsButton;
     }
 }

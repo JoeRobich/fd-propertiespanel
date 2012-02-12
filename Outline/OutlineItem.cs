@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using ASCompletion.Model;
 using ASCompletion.Context;
+using PropertiesPanel.Property;
 
 namespace PropertiesPanel.Outline
 {
@@ -123,10 +124,10 @@ namespace PropertiesPanel.Outline
             _name = model.Name;
             _typeName = "Member Properties";
 
-            OutlineProperty property;
-            property = new OutlineProperty("Member Name", string.Empty, null, Name, typeof(string));
+            Property.Property property;
+            property = new Property.Property("Member Name", Name, typeof(string), true);
             _properties.Add(property);
-            property = new OutlineProperty("Member Type", string.Empty, null, model.Type, typeof(string));
+            property = new Property.Property("Member Type", model.Type, typeof(string), true);
             _properties.Add(property);
         }
 
@@ -138,10 +139,10 @@ namespace PropertiesPanel.Outline
             _name = model.Name;
             _typeName = "Class Properties";
 
-            OutlineProperty property;
-            property = new OutlineProperty("Class Name", string.Empty, null, Name, typeof(string));
+            Property.Property property;
+            property = new Property.Property("Class Name", Name, typeof(string), true);
             _properties.Add(property);
-            property = new OutlineProperty("Class Namespace", string.Empty, null, model.Type.Substring(0, model.Type.Length - model.Name.Length - 1), typeof(string));
+            property = new Property.Property("Class Namespace", model.Type.Substring(0, model.Type.Length - model.Name.Length - 1), typeof(string), true);
             _properties.Add(property);
         }
 
@@ -153,10 +154,10 @@ namespace PropertiesPanel.Outline
             _name = model.Name;
             _typeName = "Class Properties";
 
-            OutlineProperty property;
-            property = new OutlineProperty("Class Name", string.Empty, null, Name, typeof(string));
+            Property.Property property;
+            property = new Property.Property("Class Name", Name, typeof(string), true);
             _properties.Add(property);
-            property = new OutlineProperty("Class Namespace", string.Empty, null, model.QualifiedName.Substring(0, model.QualifiedName.Length - model.Name.Length - 1), typeof(string));
+            property = new Property.Property("Class Namespace", model.QualifiedName.Substring(0, model.QualifiedName.Length - model.Name.Length - 1), typeof(string), true);
             _properties.Add(property);
         }
 
@@ -164,8 +165,8 @@ namespace PropertiesPanel.Outline
         {
             _typeName = "File Properties";
 
-            OutlineProperty property;
-            property = new OutlineProperty("File Name", string.Empty, null, Name, typeof(string));
+            Property.Property property;
+            property = new Property.Property("File Name", Name, typeof(string), true);
             _properties.Add(property);
         }
 
@@ -173,8 +174,8 @@ namespace PropertiesPanel.Outline
         {
             _typeName = "Folder Properties";
 
-            OutlineProperty property;
-            property = new OutlineProperty("Folder Name", string.Empty, null, Name, typeof(string));
+            Property.Property property;
+            property = new Property.Property("Folder Name", Name, typeof(string), true);
             _properties.Add(property);
         }
     }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PropertiesPanel
+namespace PropertiesPanel.Property
 {
     public interface IPropertyItem
     {
@@ -12,6 +12,6 @@ namespace PropertiesPanel
         string Name { get; }
         string TypeName { get; }
         IEnumerable<IProperty> Properties { get; }
-        IEnumerable<IProperty> GetTabProperties(IPropertyTab tab);
+        IEnumerable<IProperty> GetTabProperties(PropertyTab tab);
     }
 }

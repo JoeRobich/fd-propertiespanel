@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace PropertiesPanel
+namespace PropertiesPanel.Property
 {
-    public class PropertyBase : IProperty
+    public class Property : IProperty
     {
         protected string _displayName = string.Empty;
         protected string _description = string.Empty;
@@ -19,13 +19,40 @@ namespace PropertiesPanel
         protected object _value = null;
         protected Type _valueType = null;
 
-        public PropertyBase(string displayName, string description, string category, object value, Type valueType)
+        public Property()
+        {
+
+        }
+
+        public Property(string displayName, object value, Type valueType)
+            : this(displayName, string.Empty, string.Empty, value, valueType, false)
+        {
+
+        }
+
+        public Property(string displayName, object value, Type valueType, bool readOnly)
+            : this(displayName, string.Empty, string.Empty, value, valueType, readOnly)
+        {
+
+        }
+
+        public Property(string displayName, string category, object value, Type valueType, bool readOnly)
+            : this(displayName, category, string.Empty, value, valueType, readOnly)
+        {
+
+        }
+
+        public Property(string displayName, string category, string description, object value, Type valueType, bool readOnly)
         {
             _displayName = displayName;
-            _description = description;
             _category = category;
+            _description = description;
             _value = value;
             _valueType = valueType;
+            _readOnly = readOnly;
+
+            if (_readOnly)
+                _defaultValue = _value;
         }
 
         protected void OnValueChanged()

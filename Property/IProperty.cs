@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace PropertiesPanel
+namespace PropertiesPanel.Property
 {
     public delegate void ValueChangedHandler(IProperty property);
 

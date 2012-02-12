@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace PropertiesPanel
+namespace PropertiesPanel.Files
 {
-    class PropertyButton
+    class FilesItem
     {
     }
 }
