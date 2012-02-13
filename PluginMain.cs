@@ -30,7 +30,7 @@ namespace PropertiesPanel
         private const string AUTHOR = "Joey Robichaud";
 
         private Image _propertiesImage;
-        private Controls.PropertiesPanel _propertiesPanel;
+        private static Controls.PropertiesPanel _propertiesPanel;
         private DockContent _propertiesContent;
         private string _settingFilename = "";
         private Settings _settings;
@@ -130,6 +130,11 @@ namespace PropertiesPanel
 
         #endregion
 
+        public static Controls.PropertiesPanel PropertiesPanel
+        {
+            get { return _propertiesPanel; }
+        }
+
         /// <summary>
         /// Opens the plugin panel if closed
         /// </summary>
@@ -190,8 +195,8 @@ namespace PropertiesPanel
         /// </summary>
         public void CreatePluginPanel()
         {
-            this._propertiesPanel = new Controls.PropertiesPanel();
-            this._propertiesPanel.Text = ResourceHelper.GetString("PropertiesPanel.Title.PropertiesPanel");
+            _propertiesPanel = new Controls.PropertiesPanel();
+            _propertiesPanel.Text = ResourceHelper.GetString("PropertiesPanel.Title.PropertiesPanel");
             this._propertiesContent = PluginBase.MainForm.CreateDockablePanel(_propertiesPanel, GUID, _propertiesImage, DockState.DockRightAutoHide);
         }
 

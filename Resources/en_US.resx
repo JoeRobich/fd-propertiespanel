@@ -126,6 +126,15 @@
   <data name="PropertiesPanel.Label.ClassProperties" xml:space="preserve">
     <value>Class Properties</value>
   </data>
+  <data name="PropertiesPanel.Label.ConstantProperties" xml:space="preserve">
+    <value>Constant Properties</value>
+  </data>
+  <data name="PropertiesPanel.Label.ConstructorProperties" xml:space="preserve">
+    <value>Constructor Properties</value>
+  </data>
+  <data name="PropertiesPanel.Label.EnumProperties" xml:space="preserve">
+    <value>Enum Properties</value>
+  </data>
   <data name="PropertiesPanel.Label.Events" xml:space="preserve">
     <value>Events</value>
   </data>
@@ -135,11 +144,35 @@
   <data name="PropertiesPanel.Label.FolderProperties" xml:space="preserve">
     <value>Folder Properties</value>
   </data>
+  <data name="PropertiesPanel.Label.FunctionProperties" xml:space="preserve">
+    <value>Function Properties</value>
+  </data>
+  <data name="PropertiesPanel.Label.InterfaceProperties" xml:space="preserve">
+    <value>Interface Properties</value>
+  </data>
+  <data name="PropertiesPanel.Label.IsDynamic" xml:space="preserve">
+    <value>Is Dynamic</value>
+  </data>
+  <data name="PropertiesPanel.Label.IsFinal" xml:space="preserve">
+    <value>Is Final</value>
+  </data>
+  <data name="PropertiesPanel.Label.IsIntrinsic" xml:space="preserve">
+    <value>Is Intrinsic</value>
+  </data>
+  <data name="PropertiesPanel.Label.IsOverride" xml:space="preserve">
+    <value>Is Override</value>
+  </data>
+  <data name="PropertiesPanel.Label.IsStatic" xml:space="preserve">
+    <value>Is Static</value>
+  </data>
   <data name="PropertiesPanel.Label.Language" xml:space="preserve">
     <value>Language</value>
   </data>
-  <data name="PropertiesPanel.Label.LastModifiedOn" xml:space="preserve">
-    <value>LastModifiedOn</value>
+  <data name="PropertiesPanel.Label.ModifiedDate" xml:space="preserve">
+    <value>Modified Date</value>
+  </data>
+  <data name="PropertiesPanel.Label.ModifiedTime" xml:space="preserve">
+    <value>Modified Time</value>
   </data>
   <data name="PropertiesPanel.Label.Name" xml:space="preserve">
     <value>Name</value>
@@ -151,10 +184,13 @@
     <value>Path</value>
   </data>
   <data name="PropertiesPanel.Label.ProjectProperties" xml:space="preserve">
-    <value>ProjectProperties</value>
+    <value>Project Properties</value>
   </data>
   <data name="PropertiesPanel.Label.Properties" xml:space="preserve">
     <value>Properties</value>
+  </data>
+  <data name="PropertiesPanel.Label.PropertyProperties" xml:space="preserve">
+    <value>Property Properties</value>
   </data>
   <data name="PropertiesPanel.Label.ShowProperties" xml:space="preserve">
     <value>Properties Panel</value>
@@ -164,6 +200,12 @@
   </data>
   <data name="PropertiesPanel.Label.Type" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="PropertiesPanel.Label.VariableProperties" xml:space="preserve">
+    <value>Variable Properties</value>
+  </data>
+  <data name="PropertiesPanel.Label.Visibility" xml:space="preserve">
+    <value>Visibility</value>
   </data>
   <data name="PropertiesPanel.Title.PropertiesPanel" xml:space="preserve">
     <value>Properties</value>

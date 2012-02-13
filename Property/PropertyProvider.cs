@@ -5,7 +5,7 @@ using System.Text;
 
 namespace PropertiesPanel.Property
 {
-    public delegate void SelectionChangedHandler(PropertyProvider provider, PropertyItem selectedItem);
+    public delegate void SelectionChangedHandler(PropertyProvider provider);
     public delegate void ItemsChangesHandler(PropertyProvider provider);
     public delegate void ProviderActivatedHandler(PropertyProvider provider);
     public delegate void ProviderDeactivatedHandler(PropertyProvider provider);
@@ -13,7 +13,7 @@ namespace PropertiesPanel.Property
     public abstract class PropertyProvider 
     {
         private string _name = string.Empty;
-        private PropertyItem _selectedItem = null;
+        private List<PropertyItem> _selectedItems = new List<PropertyItem>();
         private PropertyTab _selectedTab = null;
         private List<PropertyItem> _items = new List<PropertyItem>();
         private List<PropertyTab> _tabs = new List<PropertyTab>();
@@ -25,19 +25,54 @@ namespace PropertiesPanel.Property
         }
 
         protected abstract void OnActivating(System.Windows.Forms.DockPanelControl panel);
+        protected abstract void OnRefresh();
         protected abstract void OnDeactivating();
 
         protected void AddItem(PropertyItem item)
         {
-            _items.Add(item);
+            AddItems(new PropertyItem[] { item });
+        }
+
+        protected void AddItems(IEnumerable<PropertyItem> items)
+        {
+            foreach (PropertyItem item in items)
+            {
+                if (_items.Contains(item))
+                    continue;
+
+                _items.Add(item);
+            }
             OnItemsChanged();
         }
 
         protected void ClearItems()
         {
+            ClearSelectedItems();
             _items.Clear();
-            SelectedItem = null;
             OnItemsChanged();
+        }
+
+        protected void AddSelectedItem(PropertyItem item)
+        {
+            AddSelectedItems(new PropertyItem[] { item });
+        }
+
+        protected void AddSelectedItems(IEnumerable<PropertyItem> items)
+        {
+            foreach (PropertyItem item in items)
+            {
+                if (!_items.Contains(item) || _selectedItems.Contains(item))
+                    continue;
+
+                _selectedItems.Add(item);
+            }
+            OnSelectedChanged();
+        }
+
+        protected void ClearSelectedItems()
+        {
+            _selectedItems.Clear();
+            OnSelectedChanged();
         }
 
         protected void AddTab(PropertyTab tab)
@@ -81,7 +116,7 @@ namespace PropertiesPanel.Property
         private void OnSelectedChanged()
         {
             if (SelectionChanged != null)
-                SelectionChanged(this, SelectedItem);
+                SelectionChanged(this);
         }
 
         #region PropertyProvider Members
@@ -96,17 +131,9 @@ namespace PropertiesPanel.Property
             get { return _name; }
         }
 
-        public PropertyItem SelectedItem
+        public IEnumerable<PropertyItem> SelectedItems
         {
-            get { return _selectedItem; }
-            protected set
-            {
-                if (_selectedItem != value)
-                {
-                    _selectedItem = value;
-                    OnSelectedChanged();
-                }
-            }
+            get { return _selectedItems; }
         }
 
         public PropertyTab SelectedTab
@@ -137,13 +164,18 @@ namespace PropertiesPanel.Property
             get { return _actions; }
         }
 
-        public void Activate(System.Windows.Forms.DockPanelControl panel)
+        internal void Activate(System.Windows.Forms.DockPanelControl panel)
         {
             OnActivating(panel);
             OnActivated();
         }
 
-        public void Deactivate()
+        public void Refresh()
+        {
+            OnRefresh();
+        }
+
+        internal void Deactivate()
         {
             OnDeactivating();
             OnDeactivated();

@@ -6,6 +6,7 @@ using PluginCore.Managers;
 using PluginCore;
 using System.Windows.Forms;
 using PropertiesPanel.Property;
+using ASCompletion.Context;
 
 namespace PropertiesPanel.Outline
 {
@@ -16,7 +17,20 @@ namespace PropertiesPanel.Outline
         public OutlineProvider()
             : base("OutlineProvider")
         {
+            PropertyAction navigateAction = new PropertyAction("Goto Declaration", PluginBase.MainForm.FindImage("99|9|3|-3"));
+            navigateAction.ActionFired += new ActionFiredHandler(navigateAction_ActionFired);
+            AddAction(navigateAction);
+        }
 
+        public TreeView OutlineTreeView
+        {
+            get { return _outlineTree; }
+        }
+
+        void navigateAction_ActionFired(PropertyProvider provider, PropertyItem item)
+        {
+            OutlineItem outlineItem = (OutlineItem)item;
+            outlineItem.NavigateTo();
         }
 
         protected override void OnActivating(DockPanelControl panel)
@@ -26,6 +40,11 @@ namespace PropertiesPanel.Outline
 
             BuildItems();
             HookEvents();
+        }
+
+        protected override void OnRefresh()
+        {
+            BuildItems();
         }
 
         protected override void OnDeactivating()
@@ -49,11 +68,14 @@ namespace PropertiesPanel.Outline
         {
             ClearItems();
 
-            OutlineItem item = AddItems(_outlineTree.Nodes);
-            SelectedItem = item;
+            List<PropertyItem> items = new List<PropertyItem>();           
+            PropertyItem selectedItem = BuildItems(_outlineTree.Nodes, items);
+
+            AddItems(items);
+            AddSelectedItem(selectedItem);
         }
 
-        private OutlineItem AddItems(TreeNodeCollection nodes)
+        private OutlineItem BuildItems(TreeNodeCollection nodes, List<PropertyItem> items)
         {
             OutlineItem selectedItem = null;
 
@@ -61,12 +83,12 @@ namespace PropertiesPanel.Outline
             {
                 OutlineItem item = new OutlineItem(node);
 
-                AddItem(item);
+                items.Add(item);
 
                 if (_outlineTree.SelectedNode == node)
                     selectedItem = item;
 
-                item = AddItems(node.Nodes);
+                item = BuildItems(node.Nodes, items);
 
                 if (item != null)
                     selectedItem = item;

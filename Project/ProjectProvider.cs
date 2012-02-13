@@ -20,6 +20,11 @@ namespace PropertiesPanel.Project
 
         }
 
+        public ProjectTreeView ProjectTreeView
+        {
+            get { return _projectTree; }
+        }
+
         protected override void OnActivating(DockPanelControl panel)
         {
             ProjectManager.PluginUI projectPanel = panel as ProjectManager.PluginUI;
@@ -27,6 +32,11 @@ namespace PropertiesPanel.Project
 
             BuildItems();
             HookEvents();
+        }
+
+        protected override void OnRefresh()
+        {
+            BuildItems();
         }
 
         protected override void OnDeactivating()
@@ -50,11 +60,15 @@ namespace PropertiesPanel.Project
         {
             ClearItems();
 
-            ProjectItem item = new ProjectItem(_projectTree.Project, _projectTree.SelectedNode);
-            AddItem(item);
+            List<PropertyItem> items = new List<PropertyItem>();
+            foreach (TreeNode node in _projectTree.SelectedNodes)
+            {
+                ProjectItem item = new ProjectItem(_projectTree.Project, node);
+                items.Add(item);
+            }
 
-            OnItemsChanged();
-            SelectedItem = item;
+            AddItems(items);
+            AddSelectedItems(items);
         }
 
         void _projectTree_AfterSelect(object sender, TreeViewEventArgs e)

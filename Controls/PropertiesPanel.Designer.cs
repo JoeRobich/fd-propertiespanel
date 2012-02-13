@@ -73,6 +73,7 @@
             this.itemsComboBox.Name = "itemsComboBox";
             this.itemsComboBox.Padding = new System.Windows.Forms.Padding(1, 2, 1, 2);
             this.itemsComboBox.Size = new System.Drawing.Size(189, 27);
+            this.itemsComboBox.SelectedIndexChanged += new System.EventHandler(this.itemsComboBox_SelectedIndexChanged);
             // 
             // toolStrip
             // 

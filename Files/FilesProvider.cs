@@ -17,6 +17,11 @@ namespace PropertiesPanel.Files
 
         }
 
+        public ListView FilesListView
+        {
+            get { return _filesList; }
+        }
+
         protected override void OnActivating(System.Windows.Forms.DockPanelControl panel)
         {
             FileExplorer.PluginUI filesPanel = panel as FileExplorer.PluginUI;
@@ -24,6 +29,11 @@ namespace PropertiesPanel.Files
 
             BuildItems();
             HookEvents();
+        }
+
+        protected override void OnRefresh()
+        {
+            BuildItems();
         }
 
         protected override void OnDeactivating()
@@ -35,29 +45,43 @@ namespace PropertiesPanel.Files
 
         private void HookEvents()
         {
-            _filesList.SelectedIndexChanged += new EventHandler(_filesList_SelectedIndexChanged);
+            _filesList.ItemSelectionChanged += new ListViewItemSelectionChangedEventHandler(_filesList_ItemSelectionChanged);
+            _filesList.AfterLabelEdit += new LabelEditEventHandler(_filesList_AfterLabelEdit);
         }
 
         private void UnhookEvents()
         {
-            _filesList.SelectedIndexChanged -= new EventHandler(_filesList_SelectedIndexChanged);
+            _filesList.ItemSelectionChanged -= new ListViewItemSelectionChangedEventHandler(_filesList_ItemSelectionChanged);
+            _filesList.AfterLabelEdit -= new LabelEditEventHandler(_filesList_AfterLabelEdit);
         }
 
         private void BuildItems()
         {
             ClearItems();
 
-            if (_filesList.SelectedItems.Count == 0)
-                return;
+            List<PropertyItem> items = new List<PropertyItem>();
+            foreach (ListViewItem listItem in _filesList.SelectedItems)
+            {
+                FilesItem item = new FilesItem(listItem);
+                items.Add(item);
+            }
 
-            FilesItem selectedItem = new FilesItem(_filesList.SelectedItems[0]);
-            AddItem(selectedItem);
-            SelectedItem = selectedItem;
+            AddItems(items);
+            AddSelectedItems(items);
         }
 
-        void _filesList_SelectedIndexChanged(object sender, EventArgs e)
+        void _filesList_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             BuildItems();
+        }
+
+        void _filesList_AfterLabelEdit(object sender, LabelEditEventArgs e)
+        {
+            foreach (FilesItem selectedItem in SelectedItems)
+            {
+                selectedItem.ListItem.Text = e.Label;
+                selectedItem.Refresh();
+            }
         }
     }
 }

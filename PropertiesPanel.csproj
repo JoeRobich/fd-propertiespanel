@@ -80,6 +80,10 @@
       <Project>{4EBF2653-9654-4E40-880E-0046B3D6210E}</Project>
       <Name>ASCompletion</Name>
     </ProjectReference>
+    <ProjectReference Include="..\CodeRefactor\CodeRefactor.csproj">
+      <Project>{1F6DF858-6011-4CAC-B33E-7000EE90FFBE}</Project>
+      <Name>CodeRefactor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FileExplorer\FileExplorer.csproj">
       <Project>{C1AEDDBD-7D3C-4C09-9C88-1644D796FD9A}</Project>
       <Name>FileExplorer</Name>

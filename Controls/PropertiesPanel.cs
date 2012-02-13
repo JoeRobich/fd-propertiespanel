@@ -116,7 +116,7 @@ namespace PropertiesPanel.Controls
         void RefreshItems()
         {
             UpdateItems();
-            UpdateSelectedItem();
+            UpdateSelectedItems();
         }
 
         void UpdateItems()
@@ -125,10 +125,11 @@ namespace PropertiesPanel.Controls
             itemsComboBox.Items.AddRange(_provider.Items.ToArray());
         }
 
-        void UpdateSelectedItem()
+        void UpdateSelectedItems()
         {
-            itemsComboBox.SelectedItem = _provider.SelectedItem;
-            propertyGrid.SelectedObject = itemsComboBox.SelectedItem;
+            PropertyItem[] selectedItems = _provider.SelectedItems.ToArray();
+            itemsComboBox.SelectedItem = selectedItems.Length == 1 ? selectedItems[0] : null;
+            propertyGrid.SelectedObjects = selectedItems;
         }
 
         void PropertiesManager_ActiveProviderChanged(PropertyProvider provider)
@@ -173,6 +174,8 @@ namespace PropertiesPanel.Controls
             foreach (PropertyTab tab in tabs)
             {
                 ToolStripButton tabButton = new ToolStripButton(tab.Name, tab.Icon);
+                tabButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+                tabButton.Tag = tab;
                 
                 if (_selectedTabButton == null)
                     SelectTab(tabButton);
@@ -193,7 +196,10 @@ namespace PropertiesPanel.Controls
             foreach (PropertyAction action in actions)
             {
                 ToolStripButton actionButton = new ToolStripButton(action.Name, action.Icon);
-                HookTabEvents(actionButton);
+                actionButton.DisplayStyle = ToolStripItemDisplayStyle.Image;
+                actionButton.Tag = action;
+
+                HookActionEvents(actionButton);
                 toolStrip.Items.Add(actionButton);
                 _actionButtons.Add(actionButton);
             }
@@ -240,7 +246,7 @@ namespace PropertiesPanel.Controls
         {
             ToolStripButton actionButton = (ToolStripButton)sender;
             PropertyAction action = (PropertyAction)actionButton.Tag;
-            action.OnActionFired(_provider, _provider.SelectedItem);
+            action.OnActionFired(_provider, (PropertyItem)itemsComboBox.SelectedItem);
         }
 
         void tabItem_Click(object sender, EventArgs e)
@@ -249,14 +255,35 @@ namespace PropertiesPanel.Controls
             SelectTab(tabButton);
         }
 
-        void _provider_SelectionChanged(PropertyProvider provider, PropertyItem selectedItem)
+        void _provider_SelectionChanged(PropertyProvider provider)
         {
-            UpdateSelectedItem();
+            UpdateSelectedItems();
         }
 
         void _provider_ItemsChanged(PropertyProvider provider)
         {
             UpdateItems();
+        }
+
+        private void itemsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            PropertyItem[] selectedItems = _provider.SelectedItems.ToArray();
+            PropertyItem selectedItem = (PropertyItem)itemsComboBox.SelectedItem;
+
+            if (selectedItems.Length > 1 && itemsComboBox.Items.Count > 1)
+            {
+                itemsComboBox.Items.Clear();
+                itemsComboBox.Items.Add(selectedItem);
+                itemsComboBox.SelectedItem = selectedItem;
+            }
+
+            propertyGrid.SelectedObject = selectedItem;
+        }
+
+        public void RefreshControls()
+        {
+            itemsComboBox.Invalidate();
+            propertyGrid.Refresh();
         }
     }
 }

@@ -27,11 +27,19 @@ namespace PropertiesPanel.Property
         public string Name
         {
             get { return _name; }
+            protected set
+            {
+                _name = value;
+            }
         }
 
         public string TypeName
         {
             get { return _typeName; }
+            protected set
+            {
+                _typeName = value;
+            }
         }
 
         public IEnumerable<Property> Properties
