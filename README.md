@@ -9,6 +9,7 @@ Adds a dockable panel that displays extra details about the selected items in ot
 
 ## History 
 **v0.8** - Various performance and bugfixes.  
+**v0.2** - Added a Goto Declaration Action to the OutlineProvider. Added the ability to rename classes and members in the OutlineProvider. Added the ability to rename files to the FilesProvider.  
 **v0.1** - Initial creation  
 
 ## Thanks go to
