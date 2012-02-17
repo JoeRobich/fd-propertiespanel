@@ -1,6 +1,6 @@
 # PropertiesPanel for FlashDevelop 4
 
-Adds a dockable panel that displays extra details about the selected items in other panels.
+Adds a dockable panel that displays extra details about the selected items in other panels. Comes with hooks for the Outline, Files, and Project panels. Provides ability to refactor member names in the outline panel and rename files in the files panel.
 
 ![Screenshot](http://dl.dropbox.com/u/3917850/images/propertiespanel.png)
 
@@ -8,6 +8,7 @@ Adds a dockable panel that displays extra details about the selected items in ot
 
 
 ## History 
+**v0.8** - Various performance and bugfixes.  
 **v0.1** - Initial creation  
 
 ## Thanks go to
