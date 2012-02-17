@@ -17,20 +17,12 @@ namespace PropertiesPanel.Outline
         public OutlineProvider()
             : base("OutlineProvider")
         {
-            PropertyAction navigateAction = new PropertyAction("Goto Declaration", PluginBase.MainForm.FindImage("99|9|3|-3"));
-            navigateAction.ActionFired += new ActionFiredHandler(navigateAction_ActionFired);
-            AddAction(navigateAction);
+            AddAction(new GotoDeclarationAction());
         }
 
         public TreeView OutlineTreeView
         {
             get { return _outlineTree; }
-        }
-
-        void navigateAction_ActionFired(PropertyProvider provider, PropertyItem item)
-        {
-            OutlineItem outlineItem = (OutlineItem)item;
-            outlineItem.NavigateTo();
         }
 
         protected override void OnActivating(DockPanelControl panel)

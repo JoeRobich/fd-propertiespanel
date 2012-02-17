@@ -71,7 +71,7 @@ namespace PropertiesPanel.Files
 
         private void BuildFolderProperties()
         {
-            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.FolderProperties");
+            _type = ResourceHelper.GetString("PropertiesPanel.Label.FolderProperties");
 
             string[] modifiedParts = _listItem.SubItems[3].Text.Split(' ');
             string modifiedDate = modifiedParts[0];
@@ -91,7 +91,7 @@ namespace PropertiesPanel.Files
 
         private void BuildFileProperties()
         {
-            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.FileProperties");
+            _type = ResourceHelper.GetString("PropertiesPanel.Label.FileProperties");
 
             string[] modifiedParts = _listItem.SubItems[3].Text.Split(' ');
             string modifiedDate = modifiedParts[0];

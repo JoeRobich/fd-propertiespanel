@@ -55,6 +55,7 @@
     </Compile>
     <Compile Include="Files\FilesItem.cs" />
     <Compile Include="Files\FilesProvider.cs" />
+    <Compile Include="Outline\GotoDeclarationAction.cs" />
     <Compile Include="Property\PropertyAction.cs" />
     <Compile Include="Property\PropertyProvider.cs" />
     <Compile Include="Property\PropertyTab.cs" />

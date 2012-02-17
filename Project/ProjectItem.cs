@@ -37,7 +37,7 @@ namespace PropertiesPanel.Project
 
         private void BuildFileProperties(FileNode node)
         {
-            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.FileProperties");
+            _type = ResourceHelper.GetString("PropertiesPanel.Label.FileProperties");
 
             Property.Property property;
             property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), Name, typeof(string), true);
@@ -48,7 +48,7 @@ namespace PropertiesPanel.Project
 
         private void BuildFolderProperties(DirectoryNode node)
         {
-            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.FolderProperties");
+            _type = ResourceHelper.GetString("PropertiesPanel.Label.FolderProperties");
 
             Property.Property property;
             property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), Name, typeof(string), true);
@@ -57,7 +57,7 @@ namespace PropertiesPanel.Project
 
         private void BuildProjectProperties(ProjectNode node)
         {
-            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.ProjectProperties");
+            _type = ResourceHelper.GetString("PropertiesPanel.Label.ProjectProperties");
 
             Property.Property property;
             property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), _project.Name, typeof(string), true);
@@ -72,7 +72,7 @@ namespace PropertiesPanel.Project
         {
             string type = node.GetType().Name.Substring(0, node.GetType().Name.Length - 4);
 
-            _typeName = type + " Properties";
+            _type = type + " Properties";
 
             Property.Property property;
             property = new Property.Property(type + " Name", Name, typeof(string), true);

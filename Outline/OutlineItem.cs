@@ -68,10 +68,10 @@ namespace PropertiesPanel.Outline
                    ClassModel classModel = null;
                    classModel = FindClass(Name);
                    BuildClassProperties(classModel, false);
-               }
+                }
                 else
                 {
-                    _typeName = tag;
+                    _type = tag;
                 }
             }
             else
@@ -106,7 +106,7 @@ namespace PropertiesPanel.Outline
                 return null;
 
             foreach (MemberModel importModel in ASContext.Context.CurrentModel.Imports)
-                if (importModel.Type == name)
+                if (importModel.Type == name || importModel.Type.EndsWith(name))
                     return importModel;
 
             foreach (ClassModel classModel in ASContext.Context.CurrentModel.Classes)
@@ -144,7 +144,7 @@ namespace PropertiesPanel.Outline
 
             _name = model.Name;
 
-            _typeName = (model.Flags & FlagType.Constant) > 0 ? ResourceHelper.GetString("PropertiesPanel.Label.ConstantProperties") :
+            _type = (model.Flags & FlagType.Constant) > 0 ? ResourceHelper.GetString("PropertiesPanel.Label.ConstantProperties") :
                                 (model.Flags & (FlagType.Getter | FlagType.Setter)) > 0 ? ResourceHelper.GetString("PropertiesPanel.Label.PropertyProperties") :
                                 (model.Flags & FlagType.Variable) > 0 ? ResourceHelper.GetString("PropertiesPanel.Label.VariableProperties") :
                                 (model.Flags & FlagType.Constructor) > 0 ? ResourceHelper.GetString("PropertiesPanel.Label.ConstructorProperties") : ResourceHelper.GetString("PropertiesPanel.Label.FunctionProperties");
@@ -182,11 +182,11 @@ namespace PropertiesPanel.Outline
             _name = model.Name;
 
             if ((model.Flags & FlagType.Interface) > 0)
-                _typeName = ResourceHelper.GetString("PropertiesPanel.Label.InterfaceProperties");
+                _type = ResourceHelper.GetString("PropertiesPanel.Label.InterfaceProperties");
             else if ((model.Flags & FlagType.Enum) > 0)
-                _typeName = ResourceHelper.GetString("PropertiesPanel.Label.EnumProperties");
+                _type = ResourceHelper.GetString("PropertiesPanel.Label.EnumProperties");
             else
-                _typeName = ResourceHelper.GetString("PropertiesPanel.Label.ClassProperties");
+                _type = ResourceHelper.GetString("PropertiesPanel.Label.ClassProperties");
 
             string visibility = (model.Access & Visibility.Internal) > 0 ? "Internal" :
                     (model.Access & Visibility.Private) > 0 ? "Private" :
@@ -217,11 +217,11 @@ namespace PropertiesPanel.Outline
             _name = model.Name;
 
             if ((model.Flags & FlagType.Interface) > 0)
-                _typeName = ResourceHelper.GetString("PropertiesPanel.Label.InterfaceProperties");
+                _type = ResourceHelper.GetString("PropertiesPanel.Label.InterfaceProperties");
             else if ((model.Flags & FlagType.Enum) > 0)
-                _typeName = ResourceHelper.GetString("PropertiesPanel.Label.EnumProperties");
+                _type = ResourceHelper.GetString("PropertiesPanel.Label.EnumProperties");
             else
-                _typeName = ResourceHelper.GetString("PropertiesPanel.Label.ClassProperties");
+                _type = ResourceHelper.GetString("PropertiesPanel.Label.ClassProperties");
 
             string visibility = (model.Access & Visibility.Internal) > 0 ? "Internal" :
                     (model.Access & Visibility.Private) > 0 ? "Private" :
@@ -230,12 +230,13 @@ namespace PropertiesPanel.Outline
 
             bool isIntrinsic = (model.Flags & FlagType.Intrinsic) > 0;
             bool isDynamic = (model.Flags & FlagType.Dynamic) > 0;
+            string namespaceName = model.QualifiedName == model.Name ? string.Empty : model.QualifiedName.Substring(0, model.QualifiedName.Length - model.Name.Length - 1);
 
             Property.Property property;
             property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), Name, typeof(string), isNameReadonly);
             property.ValueChanged +=new ValueChangedHandler(nameProperty_ValueChanged);
             _properties.Add(property);
-            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Namespace"), model.QualifiedName.Substring(0, model.QualifiedName.Length - model.Name.Length - 1), typeof(string), true);
+            property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Namespace"), namespaceName, typeof(string), true);
             _properties.Add(property);
             property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Visibility"), visibility, typeof(string), true);
             _properties.Add(property);
@@ -247,7 +248,7 @@ namespace PropertiesPanel.Outline
 
         private void BuildFileProperties()
         {
-            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.FileProperties");
+            _type = ResourceHelper.GetString("PropertiesPanel.Label.FileProperties");
 
             Property.Property property;
             property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), Name, typeof(string), true);
@@ -256,7 +257,7 @@ namespace PropertiesPanel.Outline
 
         private void BuildFolderProperties()
         {
-            _typeName = ResourceHelper.GetString("PropertiesPanel.Label.FolderProperties");
+            _type = ResourceHelper.GetString("PropertiesPanel.Label.FolderProperties");
 
             Property.Property property;
             property = new Property.Property(ResourceHelper.GetString("PropertiesPanel.Label.Name"), Name, typeof(string), true);

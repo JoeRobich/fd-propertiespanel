@@ -7,12 +7,12 @@ using PropertiesPanel.Manager;
 
 namespace PropertiesPanel.Property
 {
-    public class PropertyItem : ICustomTypeDescriptor
+    public abstract class PropertyItem : ICustomTypeDescriptor
     {
         protected Dictionary<PropertyTab, List<Property>> _tabPropertyMap = new Dictionary<PropertyTab, List<Property>>();
         protected List<Property> _properties = new List<Property>();
         protected string _name = string.Empty;
-        protected string _typeName = string.Empty;
+        protected string _type = string.Empty;
 
         protected void OnPropertyChanged(Property property)
         {
@@ -33,12 +33,12 @@ namespace PropertiesPanel.Property
             }
         }
 
-        public string TypeName
+        public string Type
         {
-            get { return _typeName; }
+            get { return _type; }
             protected set
             {
-                _typeName = value;
+                _type = value;
             }
         }
 

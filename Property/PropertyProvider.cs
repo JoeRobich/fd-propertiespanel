@@ -6,7 +6,7 @@ using System.Text;
 namespace PropertiesPanel.Property
 {
     public delegate void SelectionChangedHandler(PropertyProvider provider);
-    public delegate void ItemsChangesHandler(PropertyProvider provider);
+    public delegate void ItemsChangedHandler(PropertyProvider provider);
     public delegate void ProviderActivatedHandler(PropertyProvider provider);
     public delegate void ProviderDeactivatedHandler(PropertyProvider provider);
 
@@ -14,9 +14,9 @@ namespace PropertiesPanel.Property
     {
         private string _name = string.Empty;
         private List<PropertyItem> _selectedItems = new List<PropertyItem>();
-        private PropertyTab _selectedTab = null;
         private List<PropertyItem> _items = new List<PropertyItem>();
         private List<PropertyTab> _tabs = new List<PropertyTab>();
+        private PropertyTab _selectedTab = null;
         private List<PropertyAction> _actions = new List<PropertyAction>();
 
         public PropertyProvider(string name)
@@ -123,7 +123,7 @@ namespace PropertiesPanel.Property
 
         public event ProviderActivatedHandler Activated;
         public event ProviderDeactivatedHandler Deactivated;
-        public event ItemsChangesHandler ItemsChanged;
+        public event ItemsChangedHandler ItemsChanged;
         public event SelectionChangedHandler SelectionChanged;
 
         public string Name

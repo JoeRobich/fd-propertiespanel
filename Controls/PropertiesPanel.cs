@@ -10,6 +10,7 @@ using PluginCore;
 using PropertiesPanel.Helpers;
 using PropertiesPanel.Manager;
 using PropertiesPanel.Property;
+using System.Diagnostics;
 
 namespace PropertiesPanel.Controls
 {
@@ -23,9 +24,16 @@ namespace PropertiesPanel.Controls
         public PropertiesPanel()
         {
             InitializeComponent();
+            InitializeFonts();
             InitializeToolStrip();
             InitializeLayout();
             HookEvents();
+        }
+
+        private void InitializeFonts()
+        {
+            itemsComboBox.Font = PluginBase.Settings.DefaultFont;
+            propertyGrid.Font = PluginBase.Settings.DefaultFont;
         }
 
         private void InitializeToolStrip()
@@ -92,14 +100,14 @@ namespace PropertiesPanel.Controls
 
             Brush brush = new SolidBrush(e.ForeColor);
             e.Graphics.DrawString(item.Name, _boldFont, brush, e.Bounds.Left, e.Bounds.Top);
-            e.Graphics.DrawString(item.TypeName, e.Font, brush, e.Bounds.Left + nameLength, e.Bounds.Top);         
+            e.Graphics.DrawString(item.Type, e.Font, brush, e.Bounds.Left + nameLength, e.Bounds.Top);         
         }
 
         void HookProvider()
         {
             if (_provider != null)
             {
-                _provider.ItemsChanged += new ItemsChangesHandler(_provider_ItemsChanged);
+                _provider.ItemsChanged += new ItemsChangedHandler(_provider_ItemsChanged);
                 _provider.SelectionChanged += new SelectionChangedHandler(_provider_SelectionChanged);
             }
         }
@@ -108,7 +116,7 @@ namespace PropertiesPanel.Controls
         {
             if (_provider != null)
             {
-                _provider.ItemsChanged -= new ItemsChangesHandler(_provider_ItemsChanged);
+                _provider.ItemsChanged -= new ItemsChangedHandler(_provider_ItemsChanged);
                 _provider.SelectionChanged -= new SelectionChangedHandler(_provider_SelectionChanged);
             }
         }
@@ -130,6 +138,17 @@ namespace PropertiesPanel.Controls
             PropertyItem[] selectedItems = _provider.SelectedItems.ToArray();
             itemsComboBox.SelectedItem = selectedItems.Length == 1 ? selectedItems[0] : null;
             propertyGrid.SelectedObjects = selectedItems;
+
+            UpdateTabActions();
+        }
+
+        void UpdateTabActions()
+        {
+            foreach (ToolStripButton actionButton in _actionButtons)
+            {
+                PropertyAction action = actionButton.Tag as PropertyAction;
+                actionButton.Enabled = action.IsEnabled(_provider, _provider.SelectedItems);
+            }
         }
 
         void PropertiesManager_ActiveProviderChanged(PropertyProvider provider)
@@ -146,6 +165,7 @@ namespace PropertiesPanel.Controls
             ClearToolbar();
             AddPropertyTabs();
             AddPropertyActions();
+            RefreshControls();
         }
 
         private void ClearToolbar()
@@ -157,6 +177,8 @@ namespace PropertiesPanel.Controls
                     UnhookTabEvents(item);
                 else if (item.Tag is PropertyAction)
                     UnhookActionEvents(item);
+
+                toolStrip.Items.Remove(item);
             }
 
             SelectTab(null);
@@ -246,7 +268,7 @@ namespace PropertiesPanel.Controls
         {
             ToolStripButton actionButton = (ToolStripButton)sender;
             PropertyAction action = (PropertyAction)actionButton.Tag;
-            action.OnActionFired(_provider, (PropertyItem)itemsComboBox.SelectedItem);
+            action.OnActionClicked(_provider, _provider.SelectedItems);
         }
 
         void tabItem_Click(object sender, EventArgs e)
@@ -282,7 +304,8 @@ namespace PropertiesPanel.Controls
 
         public void RefreshControls()
         {
-            itemsComboBox.Invalidate();
+            itemsStrip.Refresh();
+            toolStrip.Refresh();
             propertyGrid.Refresh();
         }
     }
