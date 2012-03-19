@@ -197,7 +197,7 @@ namespace PropertiesPanel
         {
             _propertiesPanel = new Controls.PropertiesPanel();
             _propertiesPanel.Text = ResourceHelper.GetString("PropertiesPanel.Title.PropertiesPanel");
-            this._propertiesContent = PluginBase.MainForm.CreateDockablePanel(_propertiesPanel, GUID, _propertiesImage, DockState.DockRightAutoHide);
+            this._propertiesContent = PluginBase.MainForm.CreateDockablePanel(_propertiesPanel, GUID, _propertiesImage, DockState.DockRight);
         }
 
         /// <summary>

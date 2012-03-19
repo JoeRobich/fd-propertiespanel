@@ -21,10 +21,13 @@ namespace PropertiesPanel.Files
             _listItem = listItem;
             _name = _listItem.Text;
 
-            if (_listItem.SubItems[1].Text == "-")
-                BuildFolderProperties();
+            if (_listItem.SubItems[3].Text == "-")
+                _type = ResourceHelper.GetString("PropertiesPanel.Label.FolderProperties");
             else
-                BuildFileProperties();
+                if (_listItem.SubItems[1].Text == "-")
+                    BuildFolderProperties();
+                else
+                    BuildFileProperties();
         }
 
         public ListViewItem ListItem
