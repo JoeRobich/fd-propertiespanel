@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using PropertiesPanel.Property;
 using PropertiesPanel.Helpers;
@@ -18,7 +17,9 @@ namespace PropertiesPanel.Outline
 
         public override bool IsEnabled(PropertyProvider provider, IEnumerable<PropertyItem> selectedItems)
         {
-            PropertyItem[] items = selectedItems.ToArray();
+            List<PropertyItem> itemList = new List<PropertyItem>(selectedItems);
+
+            PropertyItem[] items = itemList.ToArray();
 
             if (provider is OutlineProvider &&
                 items.Length == 1)
@@ -32,7 +33,8 @@ namespace PropertiesPanel.Outline
 
         public override void OnActionClicked(PropertyProvider provider, IEnumerable<PropertyItem> selectedItems)
         {
-            OutlineItem outlineItem = (OutlineItem)selectedItems.First();
+            List<PropertyItem> itemList = new List<PropertyItem>(selectedItems);
+            OutlineItem outlineItem = (OutlineItem)itemList[0];
             outlineItem.NavigateTo();
         }
     }

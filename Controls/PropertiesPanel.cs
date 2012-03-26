@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using PluginCore;
@@ -130,12 +129,14 @@ namespace PropertiesPanel.Controls
         void UpdateItems()
         {
             itemsComboBox.Items.Clear();
-            itemsComboBox.Items.AddRange(_provider.Items.ToArray());
+            List<PropertyItem> itemList = new List<PropertyItem>(_provider.Items);
+            itemsComboBox.Items.AddRange(itemList.ToArray());
         }
 
         void UpdateSelectedItems()
         {
-            PropertyItem[] selectedItems = _provider.SelectedItems.ToArray();
+            List<PropertyItem> itemList = new List<PropertyItem>(_provider.SelectedItems);
+            PropertyItem[] selectedItems = itemList.ToArray();
             itemsComboBox.SelectedItem = selectedItems.Length == 1 ? selectedItems[0] : null;
             propertyGrid.SelectedObjects = selectedItems;
 
@@ -187,7 +188,8 @@ namespace PropertiesPanel.Controls
 
         private void AddPropertyTabs()
         {
-            PropertyTab[] tabs = _provider.Tabs.ToArray();
+            List<PropertyTab> tabList = new List<PropertyTab>(_provider.Tabs);
+            PropertyTab[] tabs = tabList.ToArray();
             if (tabs.Length == 0)
                 return;
 
@@ -209,7 +211,8 @@ namespace PropertiesPanel.Controls
 
         private void AddPropertyActions()
         {
-            PropertyAction[] actions = _provider.Actions.ToArray();
+            List<PropertyAction> actionList = new List<PropertyAction>(_provider.Actions);
+            PropertyAction[] actions = actionList.ToArray();
             if (actions.Length == 0)
                 return;
 
@@ -289,7 +292,8 @@ namespace PropertiesPanel.Controls
 
         private void itemsComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PropertyItem[] selectedItems = _provider.SelectedItems.ToArray();
+            List<PropertyItem> itemList = new List<PropertyItem>(_provider.SelectedItems);
+            PropertyItem[] selectedItems = itemList.ToArray();
             PropertyItem selectedItem = (PropertyItem)itemsComboBox.SelectedItem;
 
             if (selectedItems.Length > 1 && itemsComboBox.Items.Count > 1)

@@ -5,9 +5,10 @@ Adds a dockable panel that displays extra details about the selected items in ot
 ![Screenshot](http://dl.dropbox.com/u/3917850/images/propertiespanel.png)
 
 ## Download
-
+[Version 0.8.1](http://goo.gl/ExZBe)
 
 ## History 
+**v0.8.1** - Now targets the .Net 2.0 Framework.  
 **v0.8** - Various performance and bugfixes.  
 **v0.2** - Added a Goto Declaration Action to the OutlineProvider. Added the ability to rename classes and members in the OutlineProvider. Added the ability to rename files to the FilesProvider.  
 **v0.1** - Initial creation  

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ASCompletion.Model;
@@ -47,7 +46,7 @@ namespace PropertiesPanel.Outline
             if (_node.Tag != null)
             {
                 string tag = _node.Tag.ToString();
-                if (tag.Contains('@'))
+                if (tag.Contains("@"))
                 {
                     MemberModel memberModel = null;
                     string[] parts = tag.Split('@');
@@ -76,7 +75,7 @@ namespace PropertiesPanel.Outline
             }
             else
             {
-                if (_name.Contains('.'))
+                if (_name.Contains("."))
                     BuildFileProperties();
                 else
                     BuildFolderProperties();
