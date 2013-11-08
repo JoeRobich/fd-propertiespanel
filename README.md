@@ -8,6 +8,7 @@ Adds a dockable panel that displays extra details about the selected items in ot
 [Version 0.8.1](http://goo.gl/ExZBe)
 
 ## History 
+**v0.8.2** - Fixed issue running with FD4.5. Moved icon resource into the plugin.  
 **v0.8.1** - Now targets the .Net 2.0 Framework.  
 **v0.8** - Various performance and bugfixes.  
 **v0.2** - Added a Goto Declaration Action to the OutlineProvider. Added the ability to rename classes and members in the OutlineProvider. Added the ability to rename files to the FilesProvider.  
