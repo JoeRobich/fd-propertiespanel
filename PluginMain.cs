@@ -174,10 +174,7 @@ namespace PropertiesPanel
             this._settingFilename = Path.Combine(dataPath, "Settings.fdb");
 
             //Pull the member icons from the resources;
-            ComponentResourceManager resources = new ComponentResourceManager(typeof(ASCompletion.PluginUI));
-            ImageList icons = new ImageList();
-            icons.ImageStream = ((ImageListStreamer)(resources.GetObject("treeIcons.ImageStream")));
-            _propertiesImage = icons.Images["Property.png"];
+            _propertiesImage = ResourceHelper.GetImage("Property", "png");
         }
 
         /// <summary>
